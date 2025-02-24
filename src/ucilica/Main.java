@@ -1,12 +1,17 @@
 package ucilica;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 
-import static ucilica.Trokut.*;
+import java.util.List;
+import java.util.Scanner;
 
-public class Main {
+
+import static ucilica.Menu.*;
+import static ucilica.Trokut.unosTrokuta;
+
+public class Main implements Comparable<GeometrijskiOblik> {
     static List<Trokut> trokuti = new ArrayList<>();
+    static List<GeometrijskiOblik> oblici = new ArrayList<>();
     static List<Krug> krugovi = new ArrayList<>();
     static List<Pravokutnik> pravokutnici = new ArrayList<>();
 
@@ -30,20 +35,20 @@ public class Main {
         // Aplikacija mora moći sortirati sve kreirane geometrijske likove po površini uzlazno.
         Scanner scanner = new Scanner(System.in);
 
-        menu();
+        Menu.glavniMenu();
         do {
 
 
             opcija = izborMenu(scanner);
             switch (opcija) {
                 case 1:
-                    unos(unosOpcija, scanner);
+                    unos(scanner);
                     continue;
                 case 2:
-                    ispis(ispisOpcija, scanner);
+                    ispis(scanner);
                     continue;
                 case 3:
-                    sortiranje(sortiraniOpcija, scanner);
+                    sortiranje(scanner);
                     continue;
 
                 case 0:
@@ -58,7 +63,12 @@ public class Main {
 
     }
 
-    public static void ispis(int ispisOpcija, Scanner scanner) {
+    public static void sortiranje(Scanner scanner) {
+        menuSortirani();
+
+    }
+
+    public static void ispis(Scanner scanner) {
         menuIspis();
         ispisOpcija = izborMenu(scanner);
         do {
@@ -88,57 +98,29 @@ public class Main {
     }
 
 
-    public static void sortiranje(int sortiraniOpcija, Scanner scanner) {
-        menuSortirani();
-        sortiraniOpcija = izborMenu(scanner);
-
-        do {
-            switch (sortiraniOpcija) {
-                case 1:
-                    System.out.println(Trokut.sortirajTrokutePoOpsegu(trokuti));
-                    menuSortirani();
-                    sortiraniOpcija = izborMenu(scanner);
-                    continue;
-                case 2:
-                    Krug.sortirajTrokutePoOpsegu(krugovi);
-                    menuSortirani();
-                    sortiraniOpcija = izborMenu(scanner);
-                    continue;
-                case 3:
-
-                    menuSortirani();
-                    sortiraniOpcija = izborMenu(scanner);
-                case 0:
-                    unosOpcija = 0;
-                    break;
-
-            }
-
-        } while (sortiraniOpcija != 0);
-        menu();
-
-    }
-
-
-    public static void unos(int unosOpcija, Scanner scanner) {
+    public static void unos(Scanner scanner) {
         menuUnos();
         unosOpcija = izborMenu(scanner);
         do {
             switch (unosOpcija) {
                 case 1:
                     trokuti.add(unosTrokuta(scanner));
+                    oblici.add(unosTrokuta(scanner));
                     menuUnos();
                     unosOpcija = izborMenu(scanner);
                     continue;
                 case 2:
                     krugovi.add(Krug.unosKruga(scanner));
+                    oblici.add(Krug.unosKruga(scanner));
                     menuUnos();
                     unosOpcija = izborMenu(scanner);
                     continue;
                 case 3:
                     pravokutnici.add(Pravokutnik.unosPravokutnika(scanner));
+                    oblici.add(Pravokutnik.unosPravokutnika(scanner));
                     menuUnos();
                     unosOpcija = izborMenu(scanner);
+                    continue;
                 case 0:
                     unosOpcija = 0;
                     break;
@@ -146,7 +128,7 @@ public class Main {
             }
 
         } while (unosOpcija != 0);
-        menu();
+        Menu.glavniMenu();
 
     }
 
@@ -155,36 +137,9 @@ public class Main {
         return scanner.nextInt();
     }
 
-    public static void menuUnos() {
-        System.out.println("1 - UNOS TROKUTA");
-        System.out.println("2 - UNOS KRUGA");
-        System.out.println("3 - UNOS PRAVOKUTNIKA");
-        System.out.println("0 - POVRATAK");
+
+    @Override
+    public int compareTo(GeometrijskiOblik o) {
+        return 0;
     }
-
-    public static void menuIspis() {
-        System.out.println("1 - ISPIŠI TROKUTE");
-        System.out.println("2 - ISPIŠI KRUGOVE");
-        System.out.println("3 - ISPIŠI PRAVOKUTNIKE");
-        System.out.println("0 - POVRATAK");
-    }
-
-    public static void menuSortirani() {
-        System.out.println("1 - SORTIRAJ TROKUTE");
-        System.out.println("2 - SORTIRAJ KRUGOVE");
-        System.out.println("3 - SORTIRAJ PRAVOKUTNIKE");
-        System.out.println("0 - POVRATAK");
-    }
-
-    public static void menu() {
-
-        System.out.println("1 - UNOS");
-        System.out.println("2 - ISPIS");
-        System.out.println("3 - SORTIRANJE");
-        System.out.println("0 - IZLAZ");
-
-
-    }
-
-
 }

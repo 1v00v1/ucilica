@@ -5,24 +5,14 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class Trokut {
-    String naziv;
+public class Trokut extends GeometrijskiOblik{
+
     private double a;
     private double b;
     private double c;
-    private double opseg = 0.0;
-    private double površina = 0.0;
 
-    public static List<Trokut> sortirajTrokutePoPovršini(List<Trokut> trokuti) {
-        return trokuti.stream()
-                .sorted(Comparator.comparing(b -> b.getPovršina()))
-                .collect(Collectors.toList());
-    }
-    public static List<Trokut> sortirajTrokutePoOpsegu(List<Trokut> trokuti) {
-        return trokuti.stream()
-                .sorted(Comparator.comparing(b -> b.getOpseg()))
-                .collect(Collectors.toList());
-    }
+
+
 
     public static Trokut unosTrokuta(Scanner scanner){
         System.out.print("Unesite Ime trokuta :");
@@ -38,21 +28,24 @@ public class Trokut {
         return  new Trokut(naziv,a,b,c);
     }
 
-    public Double opsegTrokuta(double a, double b, double c) {
-        return a + b + c;
-    }
 
-    public Double povrsinaTrokuta(double a, double b) {
+    double površina() {
         return (a * b) / 2;
     }
 
+
+    double opseg() {
+        return a + b + c;
+    }
+
+
+
     public Trokut(String naziv, double a, double b, double c) {
-        this.naziv = naziv;
+        super(naziv);
         this.a = a;
         this.b = b;
         this.c = c;
-        this.opseg = opsegTrokuta(this.a, this.b, this.c);
-        this.površina = povrsinaTrokuta(this.a, this.b);
+
     }
 
     public String getNaziv() {
@@ -63,13 +56,8 @@ public class Trokut {
         this.naziv = naziv;
     }
 
-    public double getPovršina() {
-        return površina;
-    }
 
-    public double getOpseg() {
-        return opseg;
-    }
+
 
     public double getA() {
         return a;
@@ -97,6 +85,6 @@ public class Trokut {
 
     @Override
     public String toString() {
-        return "Trokuta " + naziv + " : \n\t\t"+"Površina = " + površina + "\n\t\tOpseg = "  + opseg+"\n";
+        return "Trokuta " + naziv + " : \n\t\t"+"Površina = " + površina() + "\n\t\tOpseg = "  + opseg()+"\n";
     }
 }
